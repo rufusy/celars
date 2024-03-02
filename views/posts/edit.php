@@ -8,6 +8,7 @@
 /**
  * @var yii\web\View $this
  * @var string $title
+ * @var app\models\Post $post
  */
 
 use yii\helpers\Url;
@@ -25,20 +26,21 @@ $this->title = $title;
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">
-                            New Post
+                            Edit Post
                         </h3>
                     </div>
-                    <form id="create-post-form" method="post" action="<?=Url::to(['/posts/store'])?>"
+                    <form id="edit-post-form" method="post" action="<?=Url::to(['/posts/update'])?>"
                           enctype="multipart/form-data">
                         <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
+                        <input type="hidden" name="id" value="<?=$post->id?>" />
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="title" class="required-control-label">Title</label>
-                                <input type="text" class="form-control" required name="title" id="title">
+                                <input type="text" class="form-control" required name="title" id="title" value="<?=$post->title?>">
                             </div>
                             <div class="form-group">
-                                <label for="images" class="required-control-label">Image(s)</label>
-                                <input type="file" class="form-control" id="images" multiple required name="images[]">
+                                <label for="images">Image(s)</label>
+                                <input type="file" class="form-control" id="images" multiple name="images[]">
                             </div>
                             <div class="form-group">
                                 <label for="documents">Document(s)</label>
@@ -46,15 +48,19 @@ $this->title = $title;
                             </div>
                             <div class="form-group">
                                 <label for="summernote" class="required-control-label">Body</label>
-                                <textarea id="summernote" class="form-control" name="body" required rows="20"></textarea>
+                                <textarea id="summernote" class="form-control" required name="body" rows="20">
+                                    <?=$post->body?>
+                                </textarea>
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" id="draft" name="publishStatus" value="draft" checked>
+                                    <input class="custom-control-input" type="radio" id="draft" name="publishStatus"
+                                    value="draft" <?=(is_null($post->published_at)) ? 'checked': '';?>>
                                     <label for="draft" class="custom-control-label">Save as draft</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" id="publish" name="publishStatus" value="final">
+                                    <input class="custom-control-input" type="radio" id="publish" name="publishStatus"
+                                    value="final" <?=(!is_null($post->published_at)) ? 'checked': '';?>>
                                     <label for="publish" class="custom-control-label">Publish now</label>
                                 </div>
                             </div>
@@ -72,13 +78,9 @@ $this->title = $title;
 $newPostJs = <<< JS
 $('#summernote').summernote();
 
-$('#create-post-form').on('submit', function(e){
+$('#edit-post-form').on('submit', function(e){
     e.preventDefault();
-    let title = $('#title').val();
-    let body = $('#body').val();
-    let images = $('#images').val();
-    
-    if(title === '' || body === '' || images === ''){
+    if($('#title').val() === '' || $('#body').val() === ''){
         alert('All mandatory fields should be provided.')
     }else{
         this.submit();

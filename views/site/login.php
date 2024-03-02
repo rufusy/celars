@@ -43,11 +43,6 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
             <?php ActiveForm::end(); ?>
-            <p class="mb-1">
-                <?php
-                echo Html::a('I forgot my password', ['/site/forgot-password'], ['title' => 'I forgot my password', 'class' => 'btn-link']);
-                ?>
-            </p>
         </div>
         <!-- /.login-card-body -->
     </div>

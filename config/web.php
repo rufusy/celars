@@ -18,7 +18,8 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-        '@views' => '@app/views'
+        '@views' => '@app/views',
+        '@attachmentsUrl' => '@app/uploads/attachments/'
     ],
     'components' => [
         'request' => [
@@ -37,17 +38,6 @@ $config = [
             'errorAction' => 'site/error',
             'maxSourceLines' => 20,
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'server105.web-hosting.com',
-                'username' => 'noreply@juzasports.com',
-                'password' => 'desirE2022**',
-                'port' => '587',
-                'encryption' => 'tls',
-            ],
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -64,11 +54,7 @@ $config = [
             'rules' => [
                 'home' => '/site/index',
                 'login' => '/site/login',
-                'logout' => '/site/logout',
-                'about' => '/site/about',
-                'contact' => '/site/contact',
-                'forgot-password' => '/site/forgot-password',
-                'recover-password' => '/site/recover-password',
+                'logout' => '/site/logout'
             ],
         ],
         'formatter' => [

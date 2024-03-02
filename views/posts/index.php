@@ -41,10 +41,6 @@ $this->title = $title
                         'label' => 'Title',
                     ],
                     [
-                        'attribute' => 'slug',
-                        'label' => 'Slug'
-                    ],
-                    [
                         'attribute' => 'created_at',
                         'label' => 'Created',
                         'filterType' => GridViewInterface::FILTER_DATE_RANGE,
@@ -55,7 +51,7 @@ $this->title = $title
                             'convertFormat'=>true,
                             'includeMonthsFilter'=>true,
                             'pluginOptions' => [
-                                'locale' => ['format' => 'Y-m-d'],
+                                'locale' => ['format' => 'd-m-Y'],
                                 'separator'=>' to '
                             ],
                             'options' => [
@@ -75,7 +71,7 @@ $this->title = $title
                             'includeMonthsFilter'=>true,
                             'pluginOptions' => [
                                 'allowClear' => true,
-                                'locale' => ['format' => 'Y-m-d'],
+                                'locale' => ['format' => 'd-m-Y'],
                                 'separator'=>' to '
                             ],
                             'options' => [
@@ -95,7 +91,7 @@ $this->title = $title
                             'includeMonthsFilter'=>true,
                             'pluginOptions' => [
                                 'allowClear' => true,
-                                'locale' => ['format' => 'Y-m-d'],
+                                'locale' => ['format' => 'd-m-Y'],
                                 'separator'=>' to '
                             ],
                             'options' => [
@@ -115,7 +111,7 @@ $this->title = $title
                             'includeMonthsFilter'=>true,
                             'pluginOptions' => [
                                 'allowClear' => true,
-                                'locale' => ['format' => 'Y-m-d'],
+                                'locale' => ['format' => 'd-m-Y'],
                                 'separator'=>' to '
                             ],
                             'options' => [
@@ -123,6 +119,41 @@ $this->title = $title
                             ]
                         ],
                     ],
+                    $actionsCol = [
+                        'class' => 'kartik\grid\ActionColumn',
+                        'template' => '{edit} | {attachments} | {delete}',
+                        'contentOptions' => [
+                            'style'=>'white-space:nowrap;',
+                            'class'=>'kartik-sheet-style kv-align-middle'
+                        ],
+                        'buttons' => [
+                            'edit' => function($url, $model) {
+                                return Html::a('<i class="fa fa-edit" aria-hidden="true"></i> edit',
+                                    Url::to(['/posts/edit', 'id' => $model['id']]),
+                                    [
+                                        'title' => 'Edit post',
+                                        'class' => 'btn btn-link btn-sm'
+                                    ]
+                                );
+                            },
+                            'attachments' => function($url, $model) {
+                                return Html::a('<i class="fa fa-file" aria-hidden="true"></i> attachments',
+                                    Url::to(['/posts/view-attachments', 'id' => $model['id']]),
+                                    [
+                                        'title' => 'Vie attachments',
+                                        'class' => 'btn btn-link btn-sm'
+                                    ]
+                                );
+                            },
+                            'delete' => function($url, $model) {
+                                return Html::button('<i class="fas fa-trash""></i> delete ' , [
+                                    'title' => 'Delete post',
+                                    'data-post-id' => $model['id'],
+                                    'class' => 'btn btn-link btn-sm delete-post-btn',
+                                ]);
+                            }
+                        ]
+                    ]
                 ];
                 try {
                     echo GridView::widget([
@@ -173,3 +204,25 @@ $this->title = $title
     </div>
 </section>
 <!-- /.content -->
+
+<?php
+$deletePostUrl = Url::to(['/posts/delete']);
+$postsJs = <<< JS
+const deletePostUrl = '$deletePostUrl';
+
+$('.delete-post-btn').on('click', function(e){
+    if(confirm('Delete this post?')) {
+        const postId = $(this).attr('data-post-id');
+        console.log(postId);
+        $.ajax({
+            url: deletePostUrl,
+            type: 'POST',
+            data: {'postId': postId}
+        }).done(function (data){
+        }).fail(function (data){
+            console.error(data.responseText);
+        });
+    }
+});
+JS;
+$this->registerJs($postsJs, yii\web\View::POS_READY);

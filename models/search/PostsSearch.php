@@ -24,7 +24,6 @@ final class PostsSearch extends Post
                 [
                     'id',
                     'title',
-                    'slug',
                     'created_at',
                     'updated_at',
                     'published_at',
@@ -51,9 +50,10 @@ final class PostsSearch extends Post
     public function search(array $params): ActiveDataProvider
     {
         $query = (new Query())
-            ->select(['p.id', 'p.title', 'p.slug', 'p.created_at', 'p.updated_at', 'p.published_at', 'p.deleted_at'])
+            ->select(['p.id', 'p.title', 'p.created_at', 'p.updated_at', 'p.published_at', 'p.deleted_at'])
             ->from(self::tableName() . ' p')
             ->where(['p.deleted_at' => null]);
+//            ->andWhere(['not', ['p.published_at' => null]]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -70,7 +70,6 @@ final class PostsSearch extends Post
         }
 
         $query->andFilterWhere(['like', 'p.title', $this->title]);
-        $query->andFilterWhere(['like', 'p.slug', $this->slug]);
 
         return $dataProvider;
     }

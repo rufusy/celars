@@ -5,13 +5,11 @@ namespace app\models;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "posts_celars".
+ * This is the model class for table "posts".
  *
  * @property int $id
  * @property string $title
- * @property string $slug
  * @property string $body
- * @property string $image_url
  * @property string $created_at
  * @property string $updated_at
  * @property string|null $published_at
@@ -33,11 +31,10 @@ class Post extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['title', 'slug', 'body', 'image_url'], 'required'],
+            [['title', 'body'], 'required'],
             [['body'], 'string'],
             [['created_at', 'updated_at', 'published_at', 'deleted_at'], 'safe'],
-            [['title', 'slug', 'image_url'], 'string', 'max' => 255],
-            [['slug'], 'unique'],
+            [['title'], 'string', 'max' => 255]
         ];
     }
 
@@ -49,9 +46,7 @@ class Post extends ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'slug' => 'Slug',
             'body' => 'Body',
-            'image_url' => 'Image Url',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'published_at' => 'Published At',

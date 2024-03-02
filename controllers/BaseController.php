@@ -21,7 +21,7 @@ class BaseController extends Controller
      */
     protected function createPageTitle(string $title): string
     {
-        return Yii::$app->params['sitename'] . ' | ' . $title;
+        return Yii::$app->params['sitename'] . ' - ' . $title;
     }
 
     /**
