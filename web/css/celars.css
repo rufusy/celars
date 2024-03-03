@@ -10,14 +10,15 @@ body {
 .spot-img {
     height: 200px;
     width: 100%;
-    object-fit: cover;
+    /*object-fit: cover;*/
+    margin-bottom: 100px;
 }
 
-.spot-img > img {
-    max-width: 100%;
-    vertical-align: middle;
-    border: 0;
-}
+/*.spot-img > img {*/
+/*    max-width: 100%;*/
+/*    vertical-align: middle;*/
+/*    border: 0;*/
+/*}*/
 
 .ui-to-top {
 	background: #008cba;
@@ -26,6 +27,15 @@ body {
 .ui-to-top:hover {
 	background: #008cba;
     opacity: .6;
+}
+
+.pagination {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.4;
+}
+.pagination > .active > a {
+    color: #0b1b34 !important;
 }
 
 .footer {

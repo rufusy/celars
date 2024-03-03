@@ -53,7 +53,6 @@ final class PostsSearch extends Post
             ->select(['p.id', 'p.title', 'p.created_at', 'p.updated_at', 'p.published_at', 'p.deleted_at'])
             ->from(self::tableName() . ' p')
             ->where(['p.deleted_at' => null]);
-//            ->andWhere(['not', ['p.published_at' => null]]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

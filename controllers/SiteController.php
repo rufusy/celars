@@ -3,14 +3,30 @@
 namespace app\controllers;
 
 use app\models\LoginForm;
+use app\services\PostService;
 use JetBrains\PhpStorm\ArrayShape;
 use Yii;
+use yii\data\Pagination;
+use yii\db\Query;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\ServerErrorHttpException;
+use yii\web\UnprocessableEntityHttpException;
 
 final class SiteController extends BaseController
 {
+    private PostService $postService;
+
+    public function init()
+    {
+        parent::init();
+
+        $this->layout = 'blogLayout';
+
+        $this->postService = new PostService();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -45,11 +61,70 @@ final class SiteController extends BaseController
      */
     public function actionIndex(): string
     {
-        $this->layout = 'blogLayout';
+        $query = (new Query())
+            ->select(['p.id', 'p.title', 'p.created_at', 'p.updated_at', 'p.published_at', 'p.deleted_at'])
+            ->from('posts_celars p')
+            ->where(['p.deleted_at' => null])
+            ->andWhere(['not', ['p.published_at' => null]]);
+
+        $pagination = new Pagination(['totalCount' => $query->count(), 'pageSize' => 8]);
+        $posts = $query->offset($pagination->offset)->limit($pagination->limit)->all();
 
         return $this->render('index', [
-            'title'=> $this->createPageTitle('home')
+            'title'=> $this->createPageTitle('home'),
+            'posts' => $posts,
+            'pagination' => $pagination
         ]);
+    }
+
+    /**
+     * @throws UnprocessableEntityHttpException
+     */
+    public function actionPostImages(): Response|\yii\console\Response
+    {
+        $get = Yii::$app->request->get();
+
+        if(empty($get['postId']) || empty($get['fileName'])) {
+            throw new UnprocessableEntityHttpException('Missing url parameters');
+        }
+
+        $filePath = Yii::getAlias('@attachmentsUrl') . $get['postId'] . '/img/'. $get['fileName'];
+
+        return Yii::$app->response->sendFile($filePath);
+    }
+
+    /**
+     * @throws UnprocessableEntityHttpException|NotFoundHttpException
+     */
+    public function actionView(): string
+    {
+        $get = Yii::$app->request->get();
+
+        if(empty($get['post'])) {
+            throw new UnprocessableEntityHttpException('Missing url parameters');
+        }
+
+        return $this->render('view', [
+            'title'=> $this->createPageTitle('view post'),
+            'post' => $this->postService->findPostById($get['post'])
+        ]);
+    }
+
+    /**
+     * @return Response|\yii\console\Response
+     * @throws UnprocessableEntityHttpException
+     */
+    public function actionDownloadAttachment(): Response|\yii\console\Response
+    {
+        $get = Yii::$app->request->get();
+
+        if(empty($get['postId']) || empty($get['fileType']) || empty($get['docName'])) {
+            throw new UnprocessableEntityHttpException('Missing url parameters');
+        }
+
+        $filePath = Yii::getAlias('@attachmentsUrl') . $get['postId'] . '/' . $get['fileType'] . '/' . $get['docName'];
+
+        return Yii::$app->response->sendFile($filePath, $get['docName'], ['inline' => true]);
     }
 
     /**

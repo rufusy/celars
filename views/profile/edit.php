@@ -14,79 +14,13 @@ use yii\helpers\Url;
 $this->title = $title;
 ?>
 
-<!-- Main content -->
-<section id="profile" class="profile">
-    <div class="container">
-        <div class="section-title" data-aos="fade-up">
-            <h2>Update account details</h2>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-6">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title" style="font-weight:700;">
-                            Your profile
-                        </h3>
-                    </div>
-                    <div class="card-body" >
-                        <form id="update-profile-form" action="<?=Url::to(['/profile/update']);?>" method="post"
-                              novalidate class="form-horizontal needs-validation">
-                            <input type="hidden" name="_csrf" value="<?=Yii::$app->request->csrfToken?>">
-                            <input type="hidden" id="id" name="id" value="<?=$profile['id']?>">
-                            <div class="card-body">
-                                <div class="form-group row">
-                                    <label for="first-name" class="col-sm-5 col-form-label required-control-label">First name</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="first-name" name="first-name"
-                                               value="<?=$profile['firstName']?>" required>
-                                        <div class="invalid-feedback">
-                                            Please provide a valid name
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="last-name" class="col-sm-5 col-form-label required-control-label">Last name</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="last-name" name="last-name"
-                                               value="<?=$profile['lastName']?>" required>
-                                        <div class="invalid-feedback">
-                                            Please provide a valid name
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="email" class="col-sm-5 col-form-label required-control-label">Email</label>
-                                    <div class="col-sm-7">
-                                        <input type="email" class="form-control" id="email" name="email"
-                                               value="<?=$profile['email']?>" required>
-                                        <div class="invalid-feedback">
-                                            Please provide a valid email
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="mobile-number" class="col-sm-5 col-form-label required-control-label">Mobile no.</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="mobile-number" name="mobile-number"
-                                               value="<?=$profile['mobileNumber']?>" minlength="12" maxlength="12" required>
-                                        <div class="invalid-feedback">
-                                            Please provide a valid mobile number
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-5 col-sm-7">
-                                        <button type="submit" id="btn-update-profile" class="btn btn-success">Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                        </form>
-                    </div>
-                </div>
-            </div>
+<div class="content-header">
+</div>
 
-            <div class="col-md-6 col-lg-6">
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title" style="font-weight: 700;">

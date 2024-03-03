@@ -221,42 +221,4 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
     }
-
-    /**
-     * Gets query for [[Posts]].
-     *
-     * @return ActiveQuery
-     */
-    public function getPosts(): ActiveQuery
-    {
-        return $this->hasMany(Post::class, ['authorId' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Profile]].
-     *
-     * @return ActiveQuery
-     */
-    public function getProfile(): ActiveQuery
-    {
-        return $this->hasOne(Profile::class, ['userId' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Roles]].
-     *
-     * @return ActiveQuery
-     */
-    public function getRoles(): ActiveQuery
-    {
-        return $this->hasMany(RoleUser::class, ['userId' => 'id']);
-    }
-
-    /**
-     * @return ActiveQuery
-     */
-    public function getStatus(): ActiveQuery
-    {
-        return $this->hasOne(Status::class, ['id' => 'statusId']);
-    }
 }

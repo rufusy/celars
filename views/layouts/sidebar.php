@@ -31,7 +31,7 @@ use yii\helpers\Url;
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="<?= Url::to(['/profile']);?>" class="nav-link">
+                    <a href="<?= Url::to(['/profile/edit' ,'id'=> Yii::$app->user->identity->id]);?>" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Account</p>
                     </a>

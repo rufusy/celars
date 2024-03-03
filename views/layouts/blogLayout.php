@@ -31,22 +31,22 @@ use yii\bootstrap4\Html;
 <?php $this->beginBody() ?>
 
 <div class="ie-panel"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
-<div class="preloader">
-    <div class="preloader-logo"><img src="<?= Yii::getAlias('@web'); ?>/images/logo.png" alt="" width="151" height="44" srcset="<?= Yii::getAlias('@web'); ?>/images/logo.png 2x"/>
-    </div>
-    <div class="preloader-body">
-        <div id="loadingProgressG">
-            <div class="loadingProgressG" id="loadingProgressG_1"></div>
-        </div>
-    </div>
-</div>
+<!--<div class="preloader">-->
+<!--    <div class="preloader-logo"><img src="--><?//= Yii::getAlias('@web'); ?><!--/images/logo.png" alt="" width="151" height="44" srcset="--><?//= Yii::getAlias('@web'); ?><!--/images/logo.png 2x"/>-->
+<!--    </div>-->
+<!--    <div class="preloader-body">-->
+<!--        <div id="loadingProgressG">-->
+<!--            <div class="loadingProgressG" id="loadingProgressG_1"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <div class="page">
     <header class="section novi-background page-header">
         <!-- https://www.codeply.com/go/kTGlK9Axdk -->
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="<?=\yii\helpers\Url::to(['/site'])?>">
                     <img src="<?= Yii::getAlias('@web'); ?>/images/logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
                 </a>
                 <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbar9">
